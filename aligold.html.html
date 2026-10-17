@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>علي الذهب للخدمات الإلكترونية - التقديم على فرص عمل</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Cairo & Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- html2pdf.js for Client-Side PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fffdf0',
+                            100: '#fefab8',
+                            200: '#fdf380',
+                            300: '#fce748',
+                            400: '#fbd81f',
+                            500: '#e5be0a',
+                            600: '#b89005',
+                            700: '#8c6802',
+                            800: '#614402',
+                            900: '#3d2800',
+                        },
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0a0f1d',
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0b1120;
+            color: #f3f4f6;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFE066 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+        }
+
+        .gold-border {
+            border-color: #D4AF37;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Printable PDF Styling */
+        #pdfTemplate {
+            display: none;
+            font-family: 'Cairo', sans-serif;
+            color: #111827;
+            background-color: #ffffff;
+            direction: rtl;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-gold-500/30">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full gold-gradient-bg flex items-center justify-center text-navy-900 shadow-lg shadow-gold-500/20 font-bold text-2xl">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold gold-gradient-text tracking-wide">
+                        علي الذهب للخدمات الإلكترونية
+                    </h1>
+                    <p class="text-xs text-gray-400">منصتكم المعتمدة للتقديم على الفرص والوظائف</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="switchTab('formTab')" id="btnFormTab" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all gold-gradient-bg text-navy-900 shadow-md">
+                    <i class="fa-solid fa-file-pen ml-1"></i> استمارة التقديم
+                </button>
+                <button onclick="switchTab('hostingTab')" id="btnHostingTab" class="px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-slate-800 transition-all border border-slate-700">
+                    <i class="fa-solid fa-server ml-1"></i> طريقة رفع الموقع
+                </button>
+                <button onclick="openEmailSettingsModal()" class="px-3 py-2 rounded-lg text-xs font-medium text-gold-400 hover:bg-gold-500/10 border border-gold-500/40 transition-all" title="إعدادات البريد">
+                    <i class="fa-solid fa-gear ml-1"></i> إعدادات EmailJS
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+
+        <!-- TAB 1: JOB APPLICATION FORM -->
+        <section id="formTab" class="space-y-6">
+            
+            <!-- Hero Banner -->
+            <div class="glass-card rounded-2xl p-6 md:p-8 text-center border-t-4 border-gold-500 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2">استمارة التقديم على فرص العمل</h2>
+                <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto">
+                    يرجى ملء جميع البيانات التالية بدقة متناهية. سيتم توليد ملف PDF رسمي ببياناتك وإرساله مباشرةً إلى الإدارة لمراجعة طلبك.
+                </p>
+                <div class="mt-4 flex flex-wrap justify-center items-center gap-4 text-xs text-gold-400 bg-gold-500/10 py-2 px-4 rounded-full w-fit mx-auto border border-gold-500/20">
+                    <span><i class="fa-solid fa-envelope ml-1"></i> البريد المستلم: <strong>alikazm2060@gmail.com</strong></span>
+                    <span class="hidden md:inline">•</span>
+                    <span><i class="fa-solid fa-shield-halved ml-1"></i> معالجة فورية وآمنة</span>
+                </div>
+            </div>
+
+            <!-- Application Form -->
+            <form id="jobForm" onsubmit="handleFormSubmit(event)" class="glass-card rounded-2xl p-6 md:p-8 shadow-xl space-y-6">
+                
+                <div class="border-b border-slate-700 pb-3 mb-4">
+                    <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card"></i> المعلومات الشخصية
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Full Name -->
+                    <div class="space-y-2">
+                        <label for="fullName" class="block text-sm font-medium text-gray-200">
+                            الاسم الثلاثي واللقب <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="fullName" required placeholder="مثال: علي كاظم عبد الحسين الذهبي"
+                                class="w-full pr-10 pl-3 py-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Mother Name -->
+                    <div class="space-y-2">
+                        <label for="motherName" class="block text-sm font-medium text-gray-200">
+                            اسم الأم الثلاثي <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-person-breastfeeding"></i>
+                            </span>
+                            <input type="text" id="motherName" required placeholder="مثال: فاطمة حسن علوان"
+                                class="w-full pr-10 pl-3 py-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Birth Year -->
+                    <div class="space-y-2">
+                        <label for="birthYear" class="block text-sm font-medium text-gray-200">
+                            سنة التولد <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </span>
+                            <select id="birthYear" required
+                                class="w-full pr-10 pl-3 py-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 outline-none transition-all appearance-none">
+                                <option value="" disabled selected>اختر سنة التولد...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="space-y-2">
+                        <label for="phone" class="block text-sm font-medium text-gray-200">
+                            رقم الهاتف / واتساب <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-phone"></i>
+                            </span>
+                            <input type="tel" id="phone" required placeholder="مثال: 07700000000" dir="ltr"
+                                class="w-full pr-10 pl-3 py-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 text-right outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Governorate / Address -->
+                    <div class="space-y-2 md:col-span-2">
+                        <label for="governorate" class="block text-sm font-medium text-gray-200">
+                            المحافظة ومكان السكن الحالي <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </span>
+                            <input type="text" id="governorate" required placeholder="مثال: بغداد - الكرادة"
+                                class="w-full pr-10 pl-3 py-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 outline-none transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Section -->
+                <div class="border-b border-slate-700 pb-3 pt-4 mb-4">
+                    <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap"></i> المؤهلات والتحصيل الدراسي
+                    </h3>
+                </div>
+
+                <!-- Graduation Level (Radio Options) -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-medium text-gray-200">
+                        المستوى الدراسي / خريج <span class="text-red-500">*</span>
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                        <label class="cursor-pointer border border-slate-700 bg-slate-900/60 hover:border-gold-500/50 rounded-xl p-3 text-center transition-all flex flex-col items-center gap-2 has-[:checked]:border-gold-500 has-[:checked]:bg-gold-500/10 has-[:checked]:text-gold-400">
+                            <input type="radio" name="educationLevel" value="يقرأ ويكتب" required class="hidden">
+                            <i class="fa-solid fa-book-open text-lg"></i>
+                            <span class="text-sm font-semibold">يقرأ ويكتب</span>
+                        </label>
+
+                        <label class="cursor-pointer border border-slate-700 bg-slate-900/60 hover:border-gold-500/50 rounded-xl p-3 text-center transition-all flex flex-col items-center gap-2 has-[:checked]:border-gold-500 has-[:checked]:bg-gold-500/10 has-[:checked]:text-gold-400">
+                            <input type="radio" name="educationLevel" value="ابتدائية" class="hidden">
+                            <i class="fa-solid fa-school text-lg"></i>
+                            <span class="text-sm font-semibold">ابتدائية</span>
+                        </label>
+
+                        <label class="cursor-pointer border border-slate-700 bg-slate-900/60 hover:border-gold-500/50 rounded-xl p-3 text-center transition-all flex flex-col items-center gap-2 has-[:checked]:border-gold-500 has-[:checked]:bg-gold-500/10 has-[:checked]:text-gold-400">
+                            <input type="radio" name="educationLevel" value="متوسطة" class="hidden">
+                            <i class="fa-solid fa-building-columns text-lg"></i>
+                            <span class="text-sm font-semibold">متوسطة</span>
+                        </label>
+
+                        <label class="cursor-pointer border border-slate-700 bg-slate-900/60 hover:border-gold-500/50 rounded-xl p-3 text-center transition-all flex flex-col items-center gap-2 has-[:checked]:border-gold-500 has-[:checked]:bg-gold-500/10 has-[:checked]:text-gold-400">
+                            <input type="radio" name="educationLevel" value="اعدادية" class="hidden">
+                            <i class="fa-solid fa-certificate text-lg"></i>
+                            <span class="text-sm font-semibold">اعدادية</span>
+                        </label>
+
+                        <label class="cursor-pointer border border-slate-700 bg-slate-900/60 hover:border-gold-500/50 rounded-xl p-3 text-center transition-all flex flex-col items-center gap-2 has-[:checked]:border-gold-500 has-[:checked]:bg-gold-500/10 has-[:checked]:text-gold-400">
+                            <input type="radio" name="educationLevel" value="بكالوريوس" class="hidden">
+                            <i class="fa-solid fa-user-graduate text-lg"></i>
+                            <span class="text-sm font-semibold">بكالوريوس</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Qualification Details -->
+                <div class="space-y-2">
+                    <label for="educationDetails" class="block text-sm font-medium text-gray-200">
+                        تفاصيل التحصيل الدراسي والتخصص <span class="text-gray-400 text-xs">(اختر التخصص أو اسم المدرسة/الكلية)</span>
+                    </label>
+                    <textarea id="educationDetails" rows="3" placeholder="مثال: بكالوريوس هندسة حاسبات / جامعة بغداد / أو اسم المدرسة الأخيرة..."
+                        class="w-full p-3 bg-slate-900/80 border border-slate-700 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-transparent text-white placeholder-gray-500 outline-none transition-all resize-none"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                    <button type="submit" id="submitBtn" class="flex-1 gold-gradient-bg hover:opacity-95 text-navy-900 font-extrabold py-4 px-6 rounded-xl shadow-lg shadow-gold-500/20 text-lg flex items-center justify-center gap-2 transition-all cursor-pointer">
+                        <i class="fa-solid fa-paper-plane"></i> تقديم الطلب وتحميل PDF
+                    </button>
+                    
+                    <button type="button" onclick="previewPDF()" class="px-6 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-xl font-bold text-gray-200 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-eye"></i> معاينة الاستمارة
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- TAB 2: HOSTING INSTRUCTIONS -->
+        <section id="hostingTab" class="hidden space-y-6">
+            <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6">
+                <div class="border-b border-gold-500/30 pb-4">
+                    <h2 class="text-2xl font-bold gold-gradient-text flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> كيف تقوم برفع هذا الموقع مجاناً على النت؟
+                    </h2>
+                    <p class="text-gray-300 text-sm mt-1">يمكنك إتاحة هذا الموقع للعملاء والمتقدمين مجاناً وبأعلى سرعة عبر المنصات التالية:</p>
+                </div>
+
+                <!-- Netlify Option -->
+                <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-amber-400"></i> الطريقة الأولى: منصة Netlify (الأسهل والأسرع)
+                        </h3>
+                        <span class="text-xs bg-green-500/20 text-green-400 px-2.5 py-1 rounded-full font-bold">مجاني 100%</span>
+                    </div>
+                    <ol class="list-decimal list-inside text-sm text-gray-300 space-y-2 leading-relaxed">
+                        <li>احفظ هذا الملف باسم <code class="bg-slate-800 px-2 py-0.5 rounded text-gold-300">index.html</code> على جهازك.</li>
+                        <li>قم بإنشاء حساب مجاني على موقع <a href="https://www.netlify.com" target="_blank" class="text-gold-400 underline">Netlify.com</a>.</li>
+                        <li>من لوحة التحكم، اذهب إلى قسم <strong>"Sites"</strong> وسحب مجلد الملف وإفلاته في منطقة Drag and Drop.</li>
+                        <li>خلال ثوانٍ معدودة ستحصل على رابط إلكتروني مباشر لموقعك يمكنك مشاركته مع المتقدمين!</li>
+                    </ol>
+                </div>
+
+                <!-- GitHub Pages Option -->
+                <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2">
+                            <i class="fa-brands fa-github text-white"></i> الطريقة الثانية: GitHub Pages
+                        </h3>
+                        <span class="text-xs bg-green-500/20 text-green-400 px-2.5 py-1 rounded-full font-bold">مجاني ومدى الحياة</span>
+                    </div>
+                    <ol class="list-decimal list-inside text-sm text-gray-300 space-y-2 leading-relaxed">
+                        <li>أنشئ حساباً على <a href="https://github.com" target="_blank" class="text-gold-400 underline">GitHub.com</a>.</li>
+                        <li>أنشئ مستودعاً جديداً (New Repository) وقم بتسميته برابط مناسب.</li>
+                        <li>ارفع ملف <code class="bg-slate-800 px-2 py-0.5 rounded text-gold-300">index.html</code> داخل المستودع.</li>
+                        <li>ادخل على <strong>Settings -> Pages</strong> واختر Branch Main واضغط Save.</li>
+                        <li>سيتوفر موقعك خلال دقيقة على رابط رسمي مجاني.</li>
+                    </ol>
+                </div>
+
+                <!-- Email Setup Instructions -->
+                <div class="bg-gold-500/10 border border-gold-500/30 rounded-xl p-5 space-y-3">
+                    <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2">
+                        <i class="fa-solid fa-envelope-circle-check"></i> ربط الإرسال التلقائي للبريد (EmailJS)
+                    </h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        الموقع يستعمل مكتبة <strong>EmailJS</strong> لإرسال بيانات المتقدمين إلى بريدك الإلكتروني <code class="text-gold-300">alikazm2060@gmail.com</code> تلقائياً بدون الحاجة لسيرفر خلفي.
+                        يمكنك إضافة مفاتيح EmailJS الخاصة بك من خلال زِر <strong>"إعدادات EmailJS"</strong> في أعلى الصفحة لضمان استلام الطلبات دائماً على بريدك.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal: EmailJS Configuration -->
+    <div id="emailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-gold-500/40 space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                <h3 class="text-lg font-bold text-gold-400">إعدادات خادم البريد (EmailJS)</h3>
+                <button onclick="closeEmailSettingsModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
+            </div>
+            
+            <p class="text-xs text-gray-300 leading-relaxed">
+                إذا كان لديك حساب في EmailJS، أدخل المفاتيح الخاصة بك أدناه لاستلام التقديمات مباشرة على بريدك:
+            </p>
+
+            <div class="space-y-3 text-sm">
+                <div>
+                    <label class="block text-gray-300 mb-1">Public Key / User ID:</label>
+                    <input type="text" id="cfgPublicKey" placeholder="مثال: user_xxxxxxxxxxxx" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-white">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">Service ID:</label>
+                    <input type="text" id="cfgServiceId" placeholder="مثال: service_xxxxxxx" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-white">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">Template ID:</label>
+                    <input type="text" id="cfgTemplateId" placeholder="مثال: template_xxxxxxx" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-white">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeEmailSettingsModal()" class="px-4 py-2 bg-slate-800 rounded-lg text-xs font-bold text-gray-300">إلغاء</button>
+                <button onclick="saveEmailSettings()" class="px-4 py-2 gold-gradient-bg text-navy-900 rounded-lg text-xs font-bold">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Template for PDF Generation -->
+    <div id="pdfTemplate" class="p-8">
+        <!-- PDF Header -->
+        <div style="border-bottom: 3px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px; text-align: center;">
+            <h1 style="color: #0f172a; font-size: 24px; font-weight: 800; margin: 0;">علي الذهب للخدمات الإلكترونية</h1>
+            <p style="color: #b89005; font-size: 14px; font-weight: bold; margin: 5px 0 0 0;">استمارة تقديم على فرصة عمل رسمية</p>
+            <p style="color: #6b7280; font-size: 11px; margin-top: 4px;">تاريخ التقديم: <span id="pdfDate"></span></p>
+        </div>
+
+        <!-- PDF Body Content -->
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px;">
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold; width: 35%;">الاسم الثلاثي واللقب:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: 600;" id="pdfFullName"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">اسم الأم الثلاثي:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb;" id="pdfMotherName"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">سنة التولد:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb;" id="pdfBirthYear"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">رقم الهاتف:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb;" id="pdfPhone"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">المحافظة والسكن:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb;" id="pdfGovernorate"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">المستوى الدراسي (خريج):</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold; color: #b89005;" id="pdfEducationLevel"></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e5e7eb; background-color: #f9fafb; font-weight: bold;">تفاصيل التحصيل والتخصص:</td>
+                <td style="padding: 10px; border: 1px solid #e5e7eb;" id="pdfEducationDetails"></td>
+            </tr>
+        </table>
+
+        <!-- PDF Footer & Stamp Placeholder -->
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+            <div style="text-align: center; width: 45%;">
+                <p style="font-size: 12px; font-weight: bold; color: #374151; margin-bottom: 40px;">توقيع المتقدم</p>
+                <p style="font-size: 11px; color: #9ca3af;">____________________</p>
+            </div>
+            <div style="text-align: center; width: 45%;">
+                <div style="border: 2px dashed #D4AF37; border-radius: 50%; width: 90px; height: 90px; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: #b89005; font-size: 10px; font-weight: bold; transform: rotate(-10deg);">
+                    ختم الاعتماد<br>علي الذهب
+                </div>
+                <p style="font-size: 11px; color: #4b5563; margin-top: 5px; font-weight: bold;">مكتب علي الذهب للخدمات الإلكترونية</p>
+            </div>
+        </div>
+        <p style="text-align: center; font-size: 10px; color: #9ca3af; margin-top: 30px;">
+            البريد المستلم المعتمد: alikazm2060@gmail.com
+        </p>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 left-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm w-full bg-slate-900 border border-gold-500 rounded-xl p-4 shadow-2xl flex items-center gap-3">
+        <div id="toastIcon" class="text-xl"></div>
+        <div id="toastMessage" class="text-sm font-medium text-white"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-slate-800 py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
+            <p class="text-sm font-bold gold-gradient-text">جميع الحقوق محفوظة © موقع علي الذهب للخدمات الإلكترونية</p>
+            <p class="text-xs text-gray-400">للتواصل المباشر والاستفسارات البريد الإلكتروني: <a href="mailto:alikazm2060@gmail.com" class="text-gold-400 underline">alikazm2060@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Populate Birth Years (1950 to current year - 15)
+        window.addEventListener('DOMContentLoaded', () => {
+            const birthYearSelect = document.getElementById('birthYear');
+            const currentYear = new Date().getFullYear();
+            const startYear = 1950;
+            const endYear = currentYear - 15;
+
+            for (let year = endYear; year >= startYear; year--) {
+                const opt = document.createElement('option');
+                opt.value = year;
+                opt.textContent = year;
+                birthYearSelect.appendChild(opt);
+            }
+
+            // Load saved EmailJS configs if available
+            loadEmailSettings();
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            document.getElementById('formTab').classList.add('hidden');
+            document.getElementById('hostingTab').classList.add('hidden');
+            
+            document.getElementById('btnFormTab').className = "px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-slate-800 transition-all border border-slate-700";
+            document.getElementById('btnHostingTab').className = "px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-slate-800 transition-all border border-slate-700";
+
+            if (tabId === 'formTab') {
+                document.getElementById('formTab').classList.remove('hidden');
+                document.getElementById('btnFormTab').className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all gold-gradient-bg text-navy-900 shadow-md";
+            } else {
+                document.getElementById('hostingTab').classList.remove('hidden');
+                document.getElementById('btnHostingTab').className = "px-4 py-2 rounded-lg text-sm font-semibold transition-all gold-gradient-bg text-navy-900 shadow-md";
+            }
+        }
+
+        // EmailJS Settings Modal Controls
+        function openEmailSettingsModal() {
+            document.getElementById('emailModal').classList.remove('hidden');
+        }
+
+        function closeEmailSettingsModal() {
+            document.getElementById('emailModal').classList.add('hidden');
+        }
+
+        function saveEmailSettings() {
+            const pubKey = document.getElementById('cfgPublicKey').value.trim();
+            const serviceId = document.getElementById('cfgServiceId').value.trim();
+            const templateId = document.getElementById('cfgTemplateId').value.trim();
+
+            localStorage.setItem('emailjs_pubkey', pubKey);
+            localStorage.setItem('emailjs_serviceid', serviceId);
+            localStorage.setItem('emailjs_templateid', templateId);
+
+            showToast('تم حفظ إعدادات البريد الإلكتروني بنجاح!', 'success');
+            closeEmailSettingsModal();
+        }
+
+        function loadEmailSettings() {
+            document.getElementById('cfgPublicKey').value = localStorage.getItem('emailjs_pubkey') || '';
+            document.getElementById('cfgServiceId').value = localStorage.getItem('emailjs_serviceid') || '';
+            document.getElementById('cfgTemplateId').value = localStorage.getItem('emailjs_templateid') || '';
+        }
+
+        // Fill PDF Template with form data
+        function populatePDFData() {
+            const fullName = document.getElementById('fullName').value;
+            const motherName = document.getElementById('motherName').value;
+            const birthYear = document.getElementById('birthYear').value;
+            const phone = document.getElementById('phone').value;
+            const governorate = document.getElementById('governorate').value;
+            const eduRadio = document.querySelector('input[name="educationLevel"]:checked');
+            const educationLevel = eduRadio ? eduRadio.value : 'غير محدد';
+            const educationDetails = document.getElementById('educationDetails').value || 'لا يوجد تفاصيل إضافية';
+
+            document.getElementById('pdfFullName').textContent = fullName;
+            document.getElementById('pdfMotherName').textContent = motherName;
+            document.getElementById('pdfBirthYear').textContent = birthYear;
+            document.getElementById('pdfPhone').textContent = phone;
+            document.getElementById('pdfGovernorate').textContent = governorate;
+            document.getElementById('pdfEducationLevel').textContent = educationLevel;
+            document.getElementById('pdfEducationDetails').textContent = educationDetails;
+            document.getElementById('pdfDate').textContent = new Date().toLocaleDateString('ar-IQ');
+        }
+
+        // Preview PDF
+        function previewPDF() {
+            const form = document.getElementById('jobForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            populatePDFData();
+            const element = document.getElementById('pdfTemplate');
+            element.style.display = 'block';
+
+            const opt = {
+                margin:       10,
+                filename:     `استمارة_تقديم_${document.getElementById('fullName').value}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().from(element).toPdf().get('jspdf').then(function (pdfObj) {
+                window.open(pdfObj.output('bloburl'), '_blank');
+                element.style.display = 'none';
+            });
+        }
+
+        // Form Submit Handler
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري جلب وتحميل الاستمارة...`;
+
+            try {
+                populatePDFData();
+
+                // 1. Generate & Download PDF Locally
+                const pdfElement = document.getElementById('pdfTemplate');
+                pdfElement.style.display = 'block';
+
+                const fullName = document.getElementById('fullName').value;
+                const fileName = `طلب_عمل_${fullName.replace(/\s+/g, '_')}.pdf`;
+
+                const opt = {
+                    margin:       10,
+                    filename:     fileName,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                await html2pdf().set(opt).from(pdfElement).save();
+                pdfElement.style.display = 'none';
+
+                // 2. Attempt EmailJS Dispatch if configured
+                const pubKey = localStorage.getItem('emailjs_pubkey');
+                const serviceId = localStorage.getItem('emailjs_serviceid');
+                const templateId = localStorage.getItem('emailjs_templateid');
+
+                let emailStatusMsg = "";
+
+                if (pubKey && serviceId && templateId) {
+                    try {
+                        emailjs.init(pubKey);
+                        await emailjs.send(serviceId, templateId, {
+                            to_email: 'alikazm2060@gmail.com',
+                            full_name: fullName,
+                            mother_name: document.getElementById('motherName').value,
+                            birth_year: document.getElementById('birthYear').value,
+                            phone: document.getElementById('phone').value,
+                            governorate: document.getElementById('governorate').value,
+                            education_level: document.querySelector('input[name="educationLevel"]:checked').value,
+                            education_details: document.getElementById('educationDetails').value
+                        });
+                        emailStatusMsg = "وتم إرسال النسخة بنجاح إلى alikazm2060@gmail.com";
+                    } catch (err) {
+                        console.warn("EmailJS error:", err);
+                        emailStatusMsg = "تم تحميل الـ PDF. (يمكنك إرسال الملف مباشرة إلى alikazm2060@gmail.com)";
+                    }
+                } else {
+                    emailStatusMsg = "تم إعداد استمارتك وتنزيل ملف الـ PDF بنجاح!";
+                }
+
+                showToast(`تم التقديم بنجاح! ${emailStatusMsg}`, 'success');
+
+                // Reset form
+                document.getElementById('jobForm').reset();
+
+            } catch (error) {
+                console.error("Submission Error:", error);
+                showToast("حدث خطأ أثناء معالجة الطلب، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        }
+
+        // Custom Toast Notification Function
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+
+            if (type === 'success') {
+                toastIcon.innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i>`;
+                toast.style.borderColor = '#4ade80';
+            } else if (type === 'error') {
+                toastIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-400"></i>`;
+                toast.style.borderColor = '#f87171';
+            } else {
+                toastIcon.innerHTML = `<i class="fa-solid fa-circle-info text-gold-400"></i>`;
+                toast.style.borderColor = '#D4AF37';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
